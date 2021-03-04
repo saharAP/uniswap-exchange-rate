@@ -30,8 +30,7 @@ In the project directory, you can run:
 
 ### `npm start`
 
-**You can connect Metamask or any other wallets to the project** 
-**Note that you must connect your wallet to the mainnet if you want to run the project correctly!**
+**Note: You can connect Metamask or any other wallets to the project. Ensure to connect your wallet to the mainnet if you want to run the project correctly!**
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
