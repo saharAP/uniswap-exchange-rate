@@ -14,11 +14,6 @@ const web3 = new Web3(Web3.givenProvider);
  // factory contract
  const factoryContract = new web3.eth.Contract(UniswapV2FactoryABI.abi, factoryAddress);
  
- // ERC20 token addresses on mainnet
- const YFIAddress="0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
- const CRVAddress="0xD533a949740bb3306d119CC777fa900bA034cd52";
- const DAIAddress="0x6b175474e89094c44da98b954eedeac495271d0f";
- const ETHAddress="0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
  
  //pair addresses uniswap v2
  const ETH_DAI="0xa478c2975ab1ea89e8196811f51a7b7ade33eb11";
@@ -35,65 +30,69 @@ const web3 = new Web3(Web3.givenProvider);
  
 function App() {
 	
- const [number, setUint] = useState(0);
- const [getNumber, setGet] = useState("your uint is...");
+ // storing exchange rates
  
- const [ethToDai, getethToDai] = useState(0.0);
- const [yfiToEth, getyfiToEth] = useState(0.0);
- const [crvToEth, getcrvToEth] = useState(0.0);
+ const [ethToDai, setEthToDai] = useState(0.0);
+ const [yfiToEth, setYfiToEth] = useState(0.0);
+ const [crvToEth, setCrvToEth] = useState(0.0);
+ 
+ const [blockNumber, setBlockNumber] = useState('#');
   
-/*const DAIETHUniswapContract = new web3.eth.Contract(UniswapV2PairABI, USDC_ETH);
-console.log(DAIETHUniswapContract);
-const result= DAIETHUniswapContract.methods.getReserves().call();
-console.log("result:");
-console.log(result);*/
-
-/*const getDaiToEthExchangeRate=async(t)=>{
-	   t.preventDefault();
-	   
-	  
-		console.log(ETHDAIContract);
-		const reserves = await ETHDAIContract.methods.getReserves().call();
-		const token0 = await ETHDAIContract.methods.token0().call();
-		const token1 = await ETHDAIContract.methods.token1().call();
-		console.log("token0 "+token0+" token1 "+token1);
-		console.log('pair reserves, first ' + reserves[0] + " second " + reserves[1]," blocktomestamp "+reserves[2]);
-   };*/
-   
-	
 	
 const computeExchangeRate=async(t)=>{
-	   t.preventDefault();
-	   
-	   //compute ETH/DAI exchange rate 
-		 const getEthUsdPrice = async () => await ETHDAIContract.methods.getReserves().call()
-		.then(reserves => getethToDai(Number(reserves._reserve0) / Number(reserves._reserve1)) ); // times 10^12 because usdc only has 6 decimals
-	   // const exchangeContract = new web3.eth.Contract(exchangeABI, exchangeAddress);
-		//const post = await exchangeContract.methods.get().call(); 
-	    //getyfiToEth(post);
+	  // t.preventDefault();
+	   var reserves;
+	   //ETH/DAI exchange rate 
+		reserves=await ETHDAIContract.methods.getReserves().call();
+		setEthToDai(Number(reserves[0]) / Number(reserves[1]));
+		
+		//YFI/ETH exchange rate 
+		reserves=await YFIETHContract.methods.getReserves().call();
+		setYfiToEth(Number(reserves[1]) / Number(reserves[0]));
+		
+		//YFI/ETH exchange rate 
+		reserves=await CRVETHContract.methods.getReserves().call();
+		setCrvToEth(Number(reserves[1]) / Number(reserves[0]));
+		
    };
 
 computeExchangeRate();
-  /* const numberSet=async (t)=>{
-	   t.preventDefault();
-	   const accounts=await window.ethereum.enable();
-	   const account =accounts[0];
-	    const gas = await storageContract.methods.set(number).estimateGas();
-		const post = await storageContract.methods.set(number).send({
-				from: account,
-				gas,
-		});
-   };
-   
-   const numberGet=async(t)=>{
-	   t.preventDefault();
-	   const post = await storageContract.methods.get().call(); 
-	   setGet(post);
-   };*/
+
+// subscribe and event for new blocks
+var subscription = web3.eth.subscribe('newBlockHeaders', function(error, result){
+    if (!error) {
+       // console.log(result);
+
+        return;
+    }
+
+    console.error(error);
+})
+.on("connected", function(subscriptionId){
+    //console.log(subscriptionId);
+})
+.on("data", function(blockHeader){
+  //  console.log(blockHeader);
+    computeExchangeRate();
+	setBlockNumber(blockHeader.number);
+	//computeExchangeRate();
+})
+.on("error", console.error);
+
+// unsubscribes the subscription
+/*subscription.unsubscribe(function(error, success){
+    if (success) {
+        console.log('Successfully unsubscribed!');
+    }
+});*/
+
 return (
  
  <div className="cargo">
      <div className="header"><h2>Uniswap Exchange Rates</h2></div> 
+	 <div className="title"><h4>Block number</h4></div> 
+	 <div className="blockNumber"><h4>{blockNumber}</h4></div> 
+	 
      <div className="pair"><h3>ETH/DAI</h3></div>  
      <div className="exchangerate"><h4>{ethToDai}</h4></div>	
 	 <div className="pair"><h3>YFI/ETH</h3></div>  
