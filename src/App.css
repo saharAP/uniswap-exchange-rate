@@ -36,3 +36,49 @@
     transform: rotate(360deg);
   }
 }
+
+.cargo {
+ 
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+}
+.pack {
+ min-height: 50vh;
+ width: 50vw;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+}
+.form {
+ height: 20vh;
+ width: 20vw;
+ display: flex;
+ justify-content: space-evenly;
+ flex-direction: column;
+}
+.button {
+ width: 20vw;
+ height: 5vh;
+}
+.result {
+ padding-top: 20px;
+}
+.pair {
+ width: 30%;
+}
+.exchangerate{
+width: 70%;
+}
+.header{
+width: 100%;
+}
+@media(max-width: 300px) {
+  .box {
+     width: 100%;
+   }
+ .exchangerate{
+width: 100%;
+}
+}

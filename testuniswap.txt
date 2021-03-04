@@ -1,0 +1,15 @@
+David Cothron  5:42 PM
+Okay
+use web3 to show real time pair exchange rates on uniswap.
+Need to show these paris
+1. ETH to DAI
+2. YFI to ETH
+3. CRV to ETH
+The rate should refresh on every block
+Also user should be able to connect metamast and another wallet
+Need to use react+hooks
+for implement this feature
+no need special design
+needed just real-time exchange rate
+you need to interact with uniswap
+After finish the test, we can go ahead with long-term position on this contract
