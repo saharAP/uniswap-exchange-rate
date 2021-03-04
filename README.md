@@ -10,6 +10,7 @@ Each pair in Uniswap has its own liquadity pool.
 So that, if you want to calculate the exchange rate of each pair, you must calcuate the quanity ratio of the two tokens of a pair.
 For more information, please see the following links:
 [ethereum.stackexchange.com](https://ethereum.stackexchange.com/questions/83701/how-to-infer-token-price-from-ethereum-blockchain-uniswap-data)
+
 [uniswap](https://uniswap.org/faq/)
 
 
@@ -29,7 +30,8 @@ In the project directory, you can run:
 
 ### `npm start`
 
-**You must connect your wallet to the mainnet if you want to run the project correctly!**
+**You can connect Metamask or any other wallets to the project** 
+**Note that you must connect your wallet to the mainnet if you want to run the project correctly!**
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
